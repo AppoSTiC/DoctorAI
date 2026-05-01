@@ -15,7 +15,15 @@ workflows:
         script: |
           flutter create .
 
-      - name: Install dependencies
+      - name: Fix dependencies
+        script: |
+          flutter pub upgrade
+
+      - name: Clean build
+        script: |
+          flutter clean
+
+      - name: Get dependencies
         script: |
           flutter pub get
 
