@@ -1,35 +1,22 @@
 workflows:
   android-build:
-    name: Android Build
-    max_build_duration: 60
-
+    name: Build Android APK
+    max_build_duration: 30
     environment:
       flutter: stable
-
     scripts:
-      - name: Go to project folder
+      - name: Generate Android Folder
         script: |
-          cd voice_ai_health_assistant
-
-      - name: Create Flutter structure
+          flutter create --platforms=android .
+      - name: Fix SDK and Permissions
         script: |
-          flutter create .
-
-      - name: Fix dependencies
+          sed -i.bak 's/flutter.minSdkVersion/21/g' android/app/build.gradle
+          sed -i.bak '/<application/i \    <uses-permission android:name="android.permission.RECORD_AUDIO"/>\n    <uses-permission android:name="android.permission.INTERNET"/>\n' android/app/src/main/AndroidManifest.xml
+      - name: Install Dependencies
         script: |
-          flutter pub upgrade
-
-      - name: Clean build
-        script: |
-          flutter clean
-
-      - name: Get dependencies
-        script: |
-          flutter pub get
-
+          flutter packages pub get
       - name: Build APK
         script: |
           flutter build apk --release
-
     artifacts:
-      - voice_ai_health_assistant/build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/flutter-apk/app-release.apk
