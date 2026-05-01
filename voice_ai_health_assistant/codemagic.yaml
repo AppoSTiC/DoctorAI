@@ -7,6 +7,10 @@ workflows:
       flutter: stable
 
     scripts:
+      - name: Go to project folder
+        script: |
+          cd voice_ai_health_assistant
+
       - name: Create Flutter structure
         script: |
           flutter create .
@@ -20,4 +24,4 @@ workflows:
           flutter build apk --release
 
     artifacts:
-      - build/app/outputs/flutter-apk/*.apk
+      - voice_ai_health_assistant/build/app/outputs/flutter-apk/*.apk
